@@ -16,7 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from django.conf.urls import url
-from .core import urls as urls_novas
+from .core import urls as urls_core
+from .courses import urls as urls_courses
+from .accounts import urls as urls_accounts
+from django.conf import settings
+from django.conf.urls.static import static
 """
 Padrão
 urlpatterns = [
@@ -25,7 +29,11 @@ urlpatterns = [
 """
 
 urlpatterns = [
-    url(r'^', include((urls_novas, "core"),namespace='core')),
+    url(r'^', include((urls_core, "core"),namespace='core')),
+    url(r'^conta/', include((urls_accounts, "accounts"), namespace='accounts')),
+    url(r'^cursos/', include((urls_courses, "courses"),namespace='courses')),
     path('admin/', admin.site.urls),
 ]
 
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
