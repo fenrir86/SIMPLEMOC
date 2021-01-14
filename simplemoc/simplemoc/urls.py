@@ -19,6 +19,8 @@ from django.conf.urls import url
 from .core import urls as urls_core
 from .courses import urls as urls_courses
 from .accounts import urls as urls_accounts
+from .forum import urls as urls_forum
+
 from django.conf import settings
 from django.conf.urls.static import static
 """
@@ -32,6 +34,7 @@ urlpatterns = [
     url(r'^', include((urls_core, "core"),namespace='core')),
     url(r'^conta/', include((urls_accounts, "accounts"), namespace='accounts')),
     url(r'^cursos/', include((urls_courses, "courses"),namespace='courses')),
+    url(r'^forum/', include((urls_forum, "forum"),namespace='forum')),
     path('admin/', admin.site.urls),
 ]
 

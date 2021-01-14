@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+from .local_settings import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,9 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Libbs
+    'taggit',
+
+    # APPS
     'simplemoc.core',
     'simplemoc.courses',
     'simplemoc.accounts',
+    'simplemoc.forum',
 ]
 
 MIDDLEWARE = [
@@ -57,7 +63,7 @@ ROOT_URLCONF = 'simplemoc.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ ],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,12 +81,12 @@ WSGI_APPLICATION = 'simplemoc.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#  'default': {
+#      'ENGINE': 'django.db.backends.sqlite3',
+#     'NAME': BASE_DIR / 'db.sqlite3',
+#  }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -131,16 +137,36 @@ EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'emilio.silvaat@gmail.com'
+EMAIL_HOST_USER = 'teste@gmail.com'
 
-EMAIL_HOST_PASSWORD = "pccj xgzr ewzj egqx"
+EMAIL_HOST_PASSWORD = "*** *** *** ***"
 
-DEFAULT_FROM_EMAIL = 'Nome <emilio.silvaat@gmail.com>'
+DEFAULT_FROM_EMAIL = 'Nome <teste@gmail.com>'
 
-CONTACT_EMAIL = 'emilio.silvaat@gmai.com'
+CONTACT_EMAIL = 'teste@gmai.com'
 
-#AUTH
-LOGIN_URL ='accounts:login'
-LOGIN_REDIRECT_URL ='core:home'
+# AUTH
+LOGIN_URL = 'accounts:login'
+LOGIN_REDIRECT_URL = 'core:home'
 LOGOUT_URL = 'accounts:logout'
 AUTH_USER_MODEL = 'accounts.User'
+
+import dj_database_url
+
+DATABASES = {
+    'default': dj_database_url.config(),
+}
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Allow all host headers
+ALLOWED_HOSTS = ['*']
+
+STATIC_ROOT = 'staticfiles'
+STATIC_URL = '/static/'
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass
